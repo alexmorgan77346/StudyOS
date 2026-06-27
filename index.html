@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0f0f1a" />
+  <meta name="description" content="StudyOS – Your personal operating system for learning, memory, and peak cognitive performance." />
+  <title>StudyOS – Learn at Your Full Potential</title>
+
+  <!-- PWA -->
+  <link rel="manifest" href="manifest.json" />
+  <link rel="apple-touch-icon" href="assets/icons/icon-192.png" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet" />
+
+  <!-- Chart.js (local — no CDN dependency) -->
+  <script src="js/vendor/chart.umd.min.js"></script>
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="css/variables.css" />
+  <link rel="stylesheet" href="css/base.css" />
+  <link rel="stylesheet" href="css/components.css" />
+  <link rel="stylesheet" href="css/dashboard.css" />
+  <link rel="stylesheet" href="css/modules.css" />
+  <link rel="stylesheet" href="css/animations.css" />
+</head>
+<body>
+
+  <!-- SIDEBAR NAV -->
+  <nav class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <div class="logo">
+        <span class="logo-icon">⬡</span>
+        <span class="logo-text">StudyOS</span>
+      </div>
+      <button class="sidebar-close" id="sidebarClose">✕</button>
+    </div>
+
+    <div class="nav-section">
+      <span class="nav-label">Core</span>
+      <ul class="nav-list">
+        <li><a href="#" class="nav-item active" data-page="dashboard"><span class="nav-icon">◎</span> Dashboard</a></li>
+        <li><a href="#" class="nav-item" data-page="study"><span class="nav-icon">📖</span> Study System</a></li>
+        <li><a href="#" class="nav-item" data-page="roadmap"><span class="nav-icon">🗺</span> Learning Roadmap</a></li>
+        <li><a href="#" class="nav-item" data-page="focus"><span class="nav-icon">🎯</span> Focus Mode</a></li>
+        <li><a href="#" class="nav-item" data-page="revision"><span class="nav-icon">🔄</span> Revision Planner</a></li>
+      </ul>
+    </div>
+
+    <div class="nav-section">
+      <span class="nav-label">Brain Pillars</span>
+      <ul class="nav-list">
+        <li><a href="#" class="nav-item" data-page="sleep"><span class="nav-icon">🌙</span> Sleep</a></li>
+        <li><a href="#" class="nav-item" data-page="gym"><span class="nav-icon">💪</span> Gym & Exercise</a></li>
+        <li><a href="#" class="nav-item" data-page="nutrition"><span class="nav-icon">🧠</span> Brain Nutrition</a></li>
+        <li><a href="#" class="nav-item" data-page="relax"><span class="nav-icon">🌊</span> Brain Relaxation</a></li>
+        <li><a href="#" class="nav-item" data-page="memory"><span class="nav-icon">⚡</span> Memory Training</a></li>
+      </ul>
+    </div>
+
+    <div class="nav-section">
+      <span class="nav-label">Growth</span>
+      <ul class="nav-list">
+        <li><a href="#" class="nav-item" data-page="knowledge"><span class="nav-icon">🔬</span> Knowledge Hub</a></li>
+        <li><a href="#" class="nav-item" data-page="habits"><span class="nav-icon">✅</span> Habit Tracker</a></li>
+        <li><a href="#" class="nav-item" data-page="goals"><span class="nav-icon">🎯</span> Goal System</a></li>
+        <li><a href="#" class="nav-item" data-page="analytics"><span class="nav-icon">📊</span> Analytics</a></li>
+        <li><a href="#" class="nav-item" data-page="achievements"><span class="nav-icon">🏆</span> Achievements</a></li>
+        <li><a href="#" class="nav-item" data-page="coach"><span class="nav-icon">🤖</span> AI Coach</a></li>
+      </ul>
+    </div>
+
+    <div class="sidebar-footer">
+      <button class="theme-toggle" id="themeToggle">
+        <span id="themeIcon">☀️</span> <span id="themeText">Light Mode</span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- MAIN WRAPPER -->
+  <div class="app-wrapper" id="appWrapper">
+
+    <!-- TOP BAR -->
+    <header class="topbar">
+      <button class="menu-btn" id="menuBtn">☰</button>
+      <div class="topbar-title" id="topbarTitle">Dashboard</div>
+      <div class="topbar-actions">
+        <span class="date-badge" id="dateBadge"></span>
+        <button class="notif-btn" id="notifBtn">🔔</button>
+      </div>
+    </header>
+
+    <!-- PAGES CONTAINER -->
+    <main class="main-content">
+
+      <!-- ═══════════════════════ DASHBOARD ═══════════════════════ -->
+      <section class="page active" id="page-dashboard">
+        <div class="page-inner">
+
+          <div class="brain-score-card glass-card">
+            <div class="score-left">
+              <p class="score-label">Today's Brain Score</p>
+              <div class="score-number" id="brainScore">0%</div>
+              <p class="score-sub">Keep building your day</p>
+            </div>
+            <div class="score-ring-wrap">
+              <svg class="score-ring" viewBox="0 0 120 120">
+                <circle class="ring-bg" cx="60" cy="60" r="50"/>
+                <circle class="ring-fill" id="ringFill" cx="60" cy="60" r="50"/>
+              </svg>
+              <span class="ring-emoji">🧠</span>
+            </div>
+          </div>
+
+          <div class="pillars-grid" id="pillarsGrid">
+            <!-- Rendered by JS -->
+          </div>
+
+          <div class="quick-actions">
+            <h3 class="section-title">Quick Actions</h3>
+            <div class="action-chips">
+              <button class="chip" data-page="focus">🎯 Start Focus</button>
+              <button class="chip" data-page="memory">⚡ Train Memory</button>
+              <button class="chip" data-page="revision">🔄 Revise Now</button>
+              <button class="chip" data-page="habits">✅ Log Habits</button>
+            </div>
+          </div>
+
+          <div class="streak-banner glass-card">
+            <span class="streak-fire">🔥</span>
+            <div>
+              <p class="streak-num" id="streakNum">0</p>
+              <p class="streak-label">Day Streak</p>
+            </div>
+            <div class="streak-right">
+              <p class="streak-msg">Stay consistent!</p>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ═══════════════════════ STUDY SYSTEM ═══════════════════════ -->
+      <section class="page" id="page-study">
+        <div class="page-inner">
+          <div class="page-header">
+            <h2 class="page-title">Study System</h2>
+            <p class="page-desc">Proven techniques backed by cognitive science</p>
+          </div>
+          <div class="techniques-grid" id="techniquesGrid">
+            <!-- Rendered by JS -->
+          </div>
+        </div>
+      </section>
+
+      <!-- ═══════════════════════ LEARNING ROADMAP ═══════════════════════ -->
+      <section class="page" id="page-roadmap">
+        <div class="page-inner">
+          <div class="page-header">
+            <h2 class="page-title">Learning Roadmap</h2>
+            <p class="page-desc">Follow the optimal path through every study session</p>
+          </div>
+          <div class="roadmap-subject">
+            <label class="form-label">What are you studying today?</label>
+            <input class="form-input" id="roadmapSubject" placeholder="e.g. Data Structures, Calculus…" />
+          </div>
+          <div class="roadmap-steps" id="roadmapSteps">
+            <!-- Rendered by JS -->
+          </div>
+        </div>
+      </section>
+
+      <!-- ═══════════════════════ FOCUS MODE ═══════════════════════ -->
+      <section class="page" id="page-focus">
+        <div class="page-inner">
+          <div class="page-header">
+            <h2 class="page-title">Focus Mode</h2>
+            <p class="page-desc">Deep work. No distractions.</p>
+          </div>
+          <div class="focus-center">
+            <div class="focus-timer-card glass-card">
+              <div class="focus-mode-label" id="focusModeLabel">Pomodoro</div>
+              <div class="focus-time" id="focusTime">25:00</div>
+              <div class="focus-phase" id="focusPhase">Focus Phase</div>
+              <div class="focus-controls">
+                <button class="btn-icon" id="focusStartBtn">▶</button>
+                <button class="btn-icon" id="focusPauseBtn" disabled>⏸</button>
+                <button class="btn-icon" id="focusResetBtn">↺</button>
+              </div>
+            </div>
+            <div class="focus-settings glass-card">
+              <h4>Timer Mode</h4>
+              <div class="mode-chips">
+                <button class="mode-chip active" data-mins="25" data-mode="Pomodoro">Pomodoro 25m</button>
+                <button class="mode-chip" data-mins="50" data-mode="Deep Work">Deep Work 50m</button>
+                <button class="mode-chip" data-mins="90" data-mode="Flow State">Flow State 90m</button>
+              </div>
+              <h4>Ambient Sound</h4>
+              <div class="sound-chips">
+                <button class="sound-chip active" data-sound="none">🔇 Silent</button>
+                <button class="sound-chip" data-sound="rain">🌧 Rain</button>
+                <button class="sound-chip" data-sound="forest">🌲 Forest</button>
+                <button class="sound-chip" data-sound="white">〰 White Noise</button>
+                <button class="sound-chip" data-sound="cafe">☕ Café</button>
+              </div>
+            </div>
+            <div class="focus-quote glass-card" id="focusQuote"></div>
+            <div class="focus-session-log glass-card">
+              <h4>Today's Sessions</h4>
+              <div id="sessionLog" class="session-log-list"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ═══════════════════════ REVISION PLANNER ═══════════════════════ -->
+      <section class="page" id="page-revision">
+        <div class="page-inner">
+          <div class="page-header">
+            <h2 class="page-title">Revision Planner</h2>
+            <p class="page-desc">Spaced repetition for long-term retention</p>
+          </div>
+          <div class="revision-add glass-card">
+            <h4>Add Topic to Revise</h4>
+            <input class="form-input" id="revisionTopic" placeholder="Topic name…" />
+            <button class="btn-primary" id="addRevisionBtn">+ Add to Schedule</button>
+          </div>
+          <div class="revision-schedule" id="revisionSchedule">
+            <!-- Rendered by JS -->
+          </div>
+        </div>
+      </section>
+
+      <!-- ═══════════════════════ SLEEP ═══════════════════════ -->
+      <section class="page" id="page-sleep">
+        <div class="page-inner">
+          <div class="page-header">
+            <h2 class="page-title">Sleep Module</h2>
+            <p class="page-desc">Sleep is the ultimate learning consolidator</p>
+          </div>
+          <div class="sleep-tracker glass-card">
+            <h4>Log Tonight's Sleep</h4>
+            <div class="sleep-inputs">
+              <div class="input-group">
+                <label>Bed Time</label>
+                <input type="time" class="form-input" id="sleepBed" value="22:30" />
+              </div>
+              <div class="input-group">
+                <label>Wake Time</label>
+                <input type="time" class="form-input" id="sleepWake" value="06:30" />
+              </div>
+              <div class="input-group">
+                <label>Quality (1–10)</label>
+                <input type="range" min="1" max="10" value="7" id="sleepQuality" />
+                <span id="sleepQualityVal">7</span>
+              </div>
+            </div>
+            <button class="btn-primary" id="logSleepBtn">Log Sleep</button>
+            <div class="sleep-result" id="sleepResult"></div>
+          </div>
+          <div class="sleep-info-grid" id="sleepInfoGrid">
+            <!-- Rendered by JS -->
+          </div>
+        </div>
+      </section>
+
+      <!-- ═══════════════════════ GYM ═══════════════════════ -->
+      <section class="page" id="page-gym">
+        <div class="page-inner">
+          <div class="page-header">
+            <h2 class="page-title">Gym & Exercise</h2>
+            <p class="page-desc">Move your body, upgrade your brain</p>
+          </div>
+          <div class="gym-tracker glass-card">
+            <h4>Today's Activity Log</h4>
+            <div class="gym-checklist" id="gymChecklist">
+              <!-- Rendered by JS -->
+            </div>
+          </div>
+          <div class="gym-info-grid" id="gymInfoGrid">
+            <!-- Rendered by JS -->
+          </div>
+        </div>
+      </section>
+
+      <!-- ═══════════════════════ NUTRITION ═══════════════════════ -->
+      <section class="page" id="page-nutrition">
+        <div class="page-inner">
+          <div class="page-header">
+            <h2 class="page-title">Brain Nutrition</h2>
+            <p class="page-desc">Feed your neurons the right fuel</p>
+          </div>
+          <div class="nutrition-tracker glass-card">
+            <h4>Daily Brain Fuel Checklist</h4>
+            <div class="nutrition-list" id="nutritionList">
+              <!-- Rendered by JS -->
+            </div>
+          </div>
+          <div class="nutrition-score glass-card" id="nutritionScore"></div>
+        </div>
+      </section>
+
+      <!-- ═══════════════════════ RELAX ═══════════════════════ -->
+      <section class="page" id="page-relax">
+        <div class="page-inner">
+          <div class="page-header">
+            <h2 class="page-title">Brain Relaxation</h2>
+            <p class="page-desc">Recovery is part of the learning process</p>
+          </div>
+          <div class="relax-grid" id="relaxGrid">
+            <!-- Rendered by JS -->
+          </div>
+          <div class="breathing-modal glass-card" id="breathingModal" style="display:none">
+            <h4 id="breathTitle">Box Breathing</h4>
+            <div class="breath-circle" id="breathCircle">
+              <span id="breathText">Inhale</span>
+              <span id="breathCount">4</span>
+            </div>
+            <p id="breathPhaseDesc">Breathe in slowly</p>
+            <div class="breath-controls">
+              <button class="btn-primary" id="breathStart">Start</button>
+              <button class="btn-secondary" id="breathStop">Stop</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ═══════════════════════ MEMORY TRAINING ═══════════════════════ -->
+      <section class="page" id="page-memory">
+        <div class="page-inner">
+          <div class="page-header">
+            <h2 class="page-title">Memory Training</h2>
+            <p class="page-desc">Exercise your working memory and attention</p>
+          </div>
+          <div class="memory-games-grid" id="memoryGamesGrid">
+            <!-- Rendered by JS -->
+          </div>
+          <div class="memory-game-area glass-card" id="memoryGameArea" style="display:none">
+            <h4 id="gameTitle">Number Memory</h4>
+            <div id="gameContent"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ═══════════════════════ KNOWLEDGE HUB ═══════════════════════ -->
+      <section class="page" id="page-knowledge">
+        <div class="page-inner">
+          <div class="page-header">
+            <h2 class="page-title">Knowledge Hub</h2>
+            <p class="page-desc">Understand your brain to master your learning</p>
+          </div>
+          <div class="knowledge-grid" id="knowledgeGrid">
+            <!-- Rendered by JS -->
+          </div>
+        </div>
+      </section>
+
+      <!-- ═══════════════════════ HABITS ═══════════════════════ -->
+      <section class="page" id="page-habits">
+        <div class="page-inner">
+          <div class="page-header">
+            <h2 class="page-title">Habit Tracker</h2>
+            <p class="page-desc">Small actions, compounding results</p>
+          </div>
+          <div class="habits-container" id="habitsContainer">
+            <!-- Rendered by JS -->
+          </div>
+          <div class="habit-streak-grid glass-card" id="habitHeatmap">
+            <h4>Last 30 Days</h4>
+            <div class="heatmap" id="heatmap"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ═══════════════════════ GOALS ═══════════════════════ -->
+      <section class="page" id="page-goals">
+        <div class="page-inner">
+          <div class="page-header">
+            <h2 class="page-title">Goal System</h2>
+            <p class="page-desc">Direction creates momentum</p>
+          </div>
+          <div class="goals-tabs">
+            <button class="goal-tab active" data-gtab="daily">Daily</button>
+            <button class="goal-tab" data-gtab="weekly">Weekly</button>
+            <button class="goal-tab" data-gtab="monthly">Monthly</button>
+            <button class="goal-tab" data-gtab="longterm">Long-term</button>
+          </div>
+          <div class="goals-content" id="goalsContent">
+            <!-- Rendered by JS -->
+          </div>
+        </div>
+      </section>
+
+      <!-- ═══════════════════════ ANALYTICS ═══════════════════════ -->
+      <section class="page" id="page-analytics">
+        <div class="page-inner">
+          <div class="page-header">
+            <h2 class="page-title">Analytics</h2>
+            <p class="page-desc">Data-driven insight into your performance</p>
+          </div>
+          <div class="analytics-grid">
+            <div class="chart-card glass-card">
+              <h4>Study Hours This Week</h4>
+              <canvas id="studyChart"></canvas>
+            </div>
+            <div class="chart-card glass-card">
+              <h4>Brain Score Trend</h4>
+              <canvas id="scoreChart"></canvas>
+            </div>
+            <div class="chart-card glass-card">
+              <h4>Habit Completion</h4>
+              <canvas id="habitChart"></canvas>
+            </div>
+            <div class="chart-card glass-card">
+              <h4>Sleep Quality</h4>
+              <canvas id="sleepChart"></canvas>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ═══════════════════════ ACHIEVEMENTS ═══════════════════════ -->
+      <section class="page" id="page-achievements">
+        <div class="page-inner">
+          <div class="page-header">
+            <h2 class="page-title">Achievements</h2>
+            <p class="page-desc">Every milestone earned, every badge deserved</p>
+          </div>
+          <div class="achievements-grid" id="achievementsGrid">
+            <!-- Rendered by JS -->
+          </div>
+        </div>
+      </section>
+
+      <!-- ═══════════════════════ AI COACH ═══════════════════════ -->
+      <section class="page" id="page-coach">
+        <div class="page-inner">
+          <div class="page-header">
+            <h2 class="page-title">AI Study Coach</h2>
+            <p class="page-desc">Your personal learning intelligence, always on</p>
+          </div>
+          <div class="coach-chat glass-card">
+            <div class="chat-messages" id="chatMessages">
+              <div class="chat-msg bot-msg">
+                <span class="chat-avatar">🤖</span>
+                <div class="chat-bubble">Hi! I'm your AI Study Coach. Ask me anything about learning, memory, focus, or study strategies. I'm here to help you reach your peak potential.</div>
+              </div>
+            </div>
+            <div class="chat-input-row">
+              <input class="form-input" id="coachInput" placeholder="Ask your coach…" />
+              <button class="btn-primary" id="coachSend">Send</button>
+            </div>
+            <div class="coach-suggestions">
+              <button class="suggestion-chip" data-q="How do I study more effectively?">How to study effectively?</button>
+              <button class="suggestion-chip" data-q="What is spaced repetition and how do I use it?">Spaced repetition?</button>
+              <button class="suggestion-chip" data-q="How can I improve my focus?">Improve focus?</button>
+              <button class="suggestion-chip" data-q="What should I eat for better memory?">Brain foods?</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- OVERLAY -->
+  <div class="overlay" id="overlay"></div>
+
+  <!-- MODAL -->
+  <div class="modal-backdrop" id="modalBackdrop">
+    <div class="modal glass-card" id="modal">
+      <button class="modal-close" id="modalClose">✕</button>
+      <div id="modalContent"></div>
+    </div>
+  </div>
+
+  <!-- TOAST -->
+  <div class="toast" id="toast"></div>
+
+  <!-- SCRIPTS -->
+  <script src="js/data.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/router.js"></script>
+  <script src="js/dashboard.js"></script>
+  <script src="js/study.js"></script>
+  <script src="js/focus.js"></script>
+  <script src="js/revision.js"></script>
+  <script src="js/sleep.js"></script>
+  <script src="js/gym.js"></script>
+  <script src="js/nutrition.js"></script>
+  <script src="js/relax.js"></script>
+  <script src="js/memory.js"></script>
+  <script src="js/knowledge.js"></script>
+  <script src="js/habits.js"></script>
+  <script src="js/goals.js"></script>
+  <script src="js/analytics.js"></script>
+  <script src="js/achievements.js"></script>
+  <script src="js/coach.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
