@@ -1,0 +1,169 @@
+/* ═══════════════════════════════════════
+   StudyOS — Dashboard Styles
+   ═══════════════════════════════════════ */
+
+/* ── Brain Score Card ── */
+.brain-score-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-lg);
+  margin-bottom: var(--space-xl);
+  background: var(--grad-blue);
+  border-color: var(--border-bright);
+  box-shadow: var(--shadow-glow);
+  position: relative;
+  overflow: hidden;
+}
+
+.brain-score-card::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse at 70% 50%, rgba(155,127,244,0.12), transparent 60%);
+  pointer-events: none;
+}
+
+.score-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-secondary);
+  margin-bottom: var(--space-xs);
+}
+
+.score-number {
+  font-size: clamp(2.5rem, 6vw, 4rem);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  color: var(--text-primary);
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.score-sub {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-top: var(--space-xs);
+}
+
+/* ── Score Ring ── */
+.score-ring-wrap {
+  position: relative;
+  width: 100px; height: 100px;
+  flex-shrink: 0;
+}
+
+.score-ring {
+  width: 100%; height: 100%;
+  transform: rotate(-90deg);
+}
+
+.ring-bg {
+  fill: none;
+  stroke: rgba(255,255,255,0.06);
+  stroke-width: 8;
+}
+
+.ring-fill {
+  fill: none;
+  stroke: url(#ringGrad);
+  stroke-width: 8;
+  stroke-linecap: round;
+  stroke-dasharray: 314;
+  stroke-dashoffset: 314;
+  transition: stroke-dashoffset 1.2s var(--ease-smooth);
+}
+
+.ring-emoji {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 1.8rem;
+}
+
+/* ── Pillars Grid ── */
+.pillars-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: var(--space-md);
+  margin-bottom: var(--space-xl);
+}
+
+.pillar-card {
+  background: var(--bg-card);
+  backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-md);
+  cursor: pointer;
+  transition: all var(--dur-fast);
+  display: flex; flex-direction: column; gap: var(--space-xs);
+}
+
+.pillar-card:hover {
+  border-color: var(--border-bright);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
+}
+
+.pillar-card.done {
+  border-color: rgba(79,255,176,0.3);
+  background: rgba(79,255,176,0.05);
+}
+
+.pillar-header {
+  display: flex; align-items: center; justify-content: space-between;
+}
+
+.pillar-emoji { font-size: 1.3rem; }
+
+.pillar-status {
+  font-size: 0.7rem; font-weight: 600;
+  padding: 3px 8px;
+  border-radius: var(--radius-full);
+}
+
+.pillar-status.done-tag {
+  background: rgba(79,255,176,0.15);
+  color: var(--accent-green);
+}
+
+.pillar-status.pending-tag {
+  background: rgba(255,255,255,0.05);
+  color: var(--text-muted);
+}
+
+.pillar-name { font-size: 0.9rem; font-weight: 600; }
+.pillar-val { font-size: 0.8rem; color: var(--text-secondary); }
+
+/* ── Quick Actions ── */
+.quick-actions { margin-bottom: var(--space-xl); }
+
+.action-chips {
+  display: flex; flex-wrap: wrap; gap: var(--space-sm);
+}
+
+/* ── Streak Banner ── */
+.streak-banner {
+  display: flex; align-items: center; gap: var(--space-lg);
+  background: var(--grad-warm);
+}
+
+.streak-fire { font-size: 2.5rem; }
+
+.streak-num {
+  font-size: 2.2rem; font-weight: 700;
+  letter-spacing: -0.04em;
+  line-height: 1;
+}
+
+.streak-label { font-size: 0.78rem; color: var(--text-secondary); }
+
+.streak-right { margin-left: auto; }
+.streak-msg { font-size: 0.85rem; color: var(--text-secondary); }
+
+@media (max-width: 480px) {
+  .brain-score-card { flex-direction: column; text-align: center; }
+  .pillars-grid { grid-template-columns: repeat(2, 1fr); }
+}

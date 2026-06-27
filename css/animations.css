@@ -1,0 +1,79 @@
+/* ═══════════════════════════════════════
+   StudyOS — Animations
+   ═══════════════════════════════════════ */
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.5; }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes countUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+.page.active {
+  animation: fadeIn 0.3s var(--ease-smooth);
+}
+
+.pillar-card, .technique-card, .glass-card {
+  animation: slideUp 0.3s var(--ease-smooth) backwards;
+}
+
+/* Staggered children */
+.pillars-grid .pillar-card:nth-child(1) { animation-delay: 0.05s; }
+.pillars-grid .pillar-card:nth-child(2) { animation-delay: 0.1s; }
+.pillars-grid .pillar-card:nth-child(3) { animation-delay: 0.15s; }
+.pillars-grid .pillar-card:nth-child(4) { animation-delay: 0.2s; }
+.pillars-grid .pillar-card:nth-child(5) { animation-delay: 0.25s; }
+.pillars-grid .pillar-card:nth-child(6) { animation-delay: 0.3s; }
+.pillars-grid .pillar-card:nth-child(7) { animation-delay: 0.35s; }
+.pillars-grid .pillar-card:nth-child(8) { animation-delay: 0.4s; }
+
+/* Score number animation */
+.score-number {
+  animation: countUp 0.6s var(--ease-smooth) backwards 0.2s;
+}
+
+/* Pulsing for active focus timer */
+.focus-time.running {
+  animation: pulse 2s ease-in-out infinite;
+}
+
+/* Loading shimmer */
+.shimmer {
+  background: linear-gradient(90deg,
+    var(--glass-bg) 25%,
+    rgba(255,255,255,0.1) 50%,
+    var(--glass-bg) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
